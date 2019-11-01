@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <div id="example"></div>
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+ /*class ButtonEvent extends React.Component{
+   constructor(props) {
+     super(props);
+     this.deleteRow3 = this.deleteRow3.bind(this)
+   }
+   deleteRow() {
+     console.log(this)
+   }
+   deleteRow2() {
+     console.log(this)
+   }
+   deleteRow3() {
+     console.log(this)
+   }
+   deleteRow4 = () => {
+     console.log(this)
+   }
+   render() {
+     return (
+       <div>
+         <button onClick={(e)=>this.deleteRow(e)}>按钮1</button>
+         <button onClick={this.deleteRow2.bind(this)}>按钮2</button>
+         <button onClick={this.deleteRow3}>按钮3</button>
+         <button onClick={this.deleteRow4}>按钮4</button>
+       </div>
+     )
+   }
+ }*/
+ function aaa() {
+   console.log(this)
+ }
+ function ButtonEvent () {
+   console.log(this)
+   return (
+     <div>
+       <button onClick={aaa.bind(this)}>按钮1</button>
+       <button onClick={aaa}>按钮2</button>
+       <button onClick={aaa}>按钮3</button>
+       <button onClick={aaa}>按钮4</button>
+     </div>
+   )
+ }
+
+  ReactDOM.render(
+    <ButtonEvent/>,
+    document.getElementById('root')
+  );
+</script>
+</body>
+</html>

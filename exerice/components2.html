@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="example"></div>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+<script type="text/babel">
+  function Common(props) {
+    return (
+      <div className="Comment">
+        <UserInfo user={props.author}/>
+        <div className="Comment-text">{props.text}</div>
+        <div className="Comment-date">{formatDate(props.date)}</div>
+      </div>
+    )
+  }
+  function Avatar(props) {
+    console.log(props);
+    return (
+      <img src={props.user.avatarUrl} alt={props.user.name} className="Avatar"/>
+    )
+  }
+  function UserInfo(props) {
+    console.log(props)
+    return (
+      <div className="UserInfo">
+        <Avatar user={props.user}/>
+        <div className="UserInfo-name">{props.user.name}</div>
+      </div>
+    )
+  }
+  function formatDate(date) {
+    let newDate = new Date(date);
+    return newDate.getFullYear()+"."+newDate.getMonth()+"."+newDate.getDate()+" "+newDate.getHours()+":"+newDate.getMinutes()+":"+newDate.getSeconds()
+  }
+  let user = {
+    author: {
+      user: {
+        avatarUrl:"./images/cat.jpg",
+        name: "猫咪老师"
+      }
+    },
+    text:"猫咪",
+    date:"2019/10/31 13:22:22"
+  }
+  const element = (<div><Common date={user.date} text={user.text} author={user.author}/></div>);
+  ReactDOM.render(
+    <Common date={user.date} text={user.text} author={user.author}/>,
+    document.getElementById('example')
+  );
+</script>
+</body>
+</html>

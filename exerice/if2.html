@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <div id="example"></div>
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  function LoginButton(props) {
+    console.log(props)
+    return (
+      <button onClick={props.onClick}>
+        Login
+      </button>
+    );
+  }
+
+  function LogoutButton(props) {
+    return (
+      <button onClick={props.onClick}>
+        Logout
+      </button>
+    );
+  }
+  function login() {
+    alert("login")
+  }
+  function logout() {
+    alert("logout")
+  }
+  function IfElse (props) {
+    if (props.result) {
+      return <LoginButton onClick={login}/>
+    } else {
+      return <LogoutButton onClick={logout}/>
+    }
+  }
+  ReactDOM.render(
+    <IfElse result={false}/>,
+    document.getElementById('root')
+  );
+</script>
+</body>
+</html>

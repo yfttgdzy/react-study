@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    .center{
+      text-align: center;
+    }
+  </style>
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const resData = [
+    {category: "Sporting Goods", price: "$49.99", stocked: true, name: "Football"},
+    {category: "Sporting Goods", price: "$9.99", stocked: true, name: "Baseball"},
+    {category: "Sporting Goods", price: "$29.99", stocked: false, name: "Basketball"},
+    {category: "Electronics", price: "$99.99", stocked: true, name: "iPod Touch"},
+    {category: "Electronics", price: "$399.99", stocked: false, name: "iPhone 5"},
+    {category: "Electronics", price: "$199.99", stocked: true, name: "Nexus 7"}
+  ];
+
+  function ProductCategoryRow(props) {
+    const category = props.category;
+    return (<tr><td colSpan="2">{category}</td></tr>);
+  }
+  function ProductRow(props) {
+    const data = props.data;
+    if (!data.stocked) {
+      return <tr><td style={{color:'red'}}>{data.name}</td><td>{data.price}</td></tr>;
+    }
+    return <tr><td>{data.name}</td><td>{data.price}</td></tr>;
+  }
+  class ProductTable extends React.Component{
+    constructor(props) {
+      super(props);
+    }
+    render() {
+      let rows = [];
+      let category = null;
+      this.props.data.forEach(function (v,k) {
+        debugger;
+        if (v.category !== category) {
+          rows.push(<ProductCategoryRow category={v.category} key={v.category}/>)
+        }
+        category = v.category;
+        rows.push(<ProductRow data={v} key={v.name}/>)
+      })
+      console.log(rows);
+      return (
+        <div>
+          <table className="center">
+            <thead>
+              <tr>
+                <th width="100">Name</th>
+                <th width="100">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+            {rows}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+  }
+  class SearchBar extends React.Component{
+    constructor(props) {
+      super(props);
+      this.handleChange = this.handleChange.bind(this);
+      this.handleChangeCheck = this.handleChangeCheck.bind(this);
+    }
+    handleChange(e) {
+      this.props.onSearch(e.target.value);
+    }
+    handleChangeCheck(e) {
+      this.props.onCheck(e.target.checked);
+    }
+    render() {
+      return (
+        <div>
+          <input type="text" value={this.props.searchInput} onChange={this.handleChange}/><br/>
+          <label>
+            <input type="checkbox" value={this.props.check} onChange={this.handleChangeCheck}/>
+            Only show products in stock
+          </label>
+        </div>
+      );
+    }
+  }
+
+
+  class FilterableProductTable extends React.Component{
+    constructor(props) {
+      super(props);
+      this.state = {name: 'all',value: ''};
+      this.changeStock = this.changeStock.bind(this);
+      this.changeStock2 = this.changeStock2.bind(this);
+    }
+    changeStock(stock) {
+      this.setState({
+        name: stock ? 'stock' : 'all'
+      })
+    }
+    changeStock2(value) {
+      this.setState({value: value})
+    }
+    render() {
+      const data = [],Product = [];
+      const name = this.state.name;
+      const value = this.state.value;
+      resData.forEach(function (v,k) {
+        if(name === 'all') {
+          data.push(v)
+        } else if(name === 'stock'){
+          if (v.stocked) {
+            data.push(v)
+          }
+        }
+      });
+      data.forEach(function (v,k) {
+        console.log(v.name.indexOf(value));
+        if (v.name.indexOf(value) !== -1) {
+          Product.push(v)
+        }
+      });
+      return (
+        <div>
+          <SearchBar searchInput={this.value} onCheck={this.changeStock} onSearch={this.changeStock2}/>
+          <ProductTable data={Product}/>
+        </div>
+      )
+    }
+
+  }
+  ReactDOM.render(<FilterableProductTable/>,document.getElementById("root"))
+</script>
+</body>
+</html>
